@@ -13,7 +13,10 @@ class HomeScreen extends StatelessWidget {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: Icon(Icons.add),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.add),
+            ),
           ),
         ],
       ),

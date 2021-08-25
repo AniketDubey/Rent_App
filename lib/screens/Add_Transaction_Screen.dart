@@ -11,7 +11,6 @@ class Add_Transaction extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
-        child: Form(child: ),
       ),
     );
   }
