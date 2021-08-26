@@ -8,21 +8,21 @@ class BSummary with ChangeNotifier {
     BasicSummary(
       id: "r1",
       name: "Vijay Shankar",
-      remamount: 0,
+      remamount: 10000,
       trandetails: [
-        Transaction(date: DateTime.parse("2020-04-02"), paid_amount: 200),
+        /* Transaction(date: DateTime.parse("2020-04-02"), paid_amount: 200),
         Transaction(date: DateTime.parse("2020-07-06"), paid_amount: 2000),
-        Transaction(date: DateTime.parse("2019-04-02"), paid_amount: 1200),
+        Transaction(date: DateTime.parse("2019-04-02"), paid_amount: 1200), */
       ],
     ),
     BasicSummary(
       id: "r2",
       name: "Lala",
-      remamount: 0,
+      remamount: 10000,
       trandetails: [
-        Transaction(date: DateTime.parse("2022-04-02"), paid_amount: 200),
+        /* Transaction(date: DateTime.parse("2022-04-02"), paid_amount: 200),
         Transaction(date: DateTime.parse("2018-07-06"), paid_amount: 2000),
-        Transaction(date: DateTime.parse("2016-04-02"), paid_amount: 1200),
+        Transaction(date: DateTime.parse("2016-04-02"), paid_amount: 1200), */
       ],
     ),
   ];
@@ -33,5 +33,34 @@ class BSummary with ChangeNotifier {
 
   BasicSummary findByID(String id) {
     return _items.firstWhere((element) => element.id == id);
+  }
+
+  /* Map<String, int> aniket = {
+    "r1": 200,
+    "r2": 300,
+  };
+
+  Map<String, int> get amit {
+    return aniket;
+  } */
+
+  void add_Trans(String id, double amount, DateTime pickdate) {
+    final BasicSummary _userprofile =
+        items.firstWhere((element) => element.id == id);
+
+    _userprofile.remamount = _userprofile.remamount - amount;
+    //print(_userprofile.remamount);
+    _userprofile.trandetails
+        .add(Transaction(date: pickdate, paid_amount: amount));
+    notifyListeners();
+  }
+
+  void del_Trans(String id, DateTime date) {
+    final BasicSummary _userprofile =
+        items.firstWhere((element) => element.id == id);
+    final expecIndex =
+        _userprofile.trandetails.indexWhere((element) => element.date == date);
+    _userprofile.trandetails.removeAt(expecIndex);
+    notifyListeners();
   }
 }
