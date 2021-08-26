@@ -30,15 +30,15 @@ class HomeDetails extends StatelessWidget {
                     Flexible(
                       child: Text(
                         "${_user[index].name}",
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.headline1,
                       ),
                       flex: 3,
                       fit: FlexFit.tight,
                     ),
                     Flexible(
                       child: Text(
-                        "${_user[index].remamount}",
-                        style: Theme.of(context).textTheme.bodyText1,
+                        "${_user[index].remamount.toInt()}",
+                        style: Theme.of(context).textTheme.bodyText2,
                       ),
                       flex: 1,
                       fit: FlexFit.tight,
