@@ -36,8 +36,8 @@ class BSummary with ChangeNotifier {
   }
 
   /* Map<String, int> aniket = {
-    "r1": 200,
-    "r2": 300,
+    "r1": 2000,
+    "r2": 3000,
   };
 
   Map<String, int> get amit {
@@ -48,10 +48,20 @@ class BSummary with ChangeNotifier {
     final BasicSummary _userprofile =
         items.firstWhere((element) => element.id == id);
 
-    _userprofile.remamount = _userprofile.remamount - amount;
+    // _userprofile.remamount = _userprofile.remamount - amount;
     //print(_userprofile.remamount);
-    _userprofile.trandetails
-        .add(Transaction(date: pickdate, paid_amount: amount));
+    double updatedamount = 0;
+    if (_userprofile.trandetails.length == 0) {
+      updatedamount = _userprofile.remamount - amount;
+    } else {
+      updatedamount = _userprofile.trandetails[0].aboutreq - amount;
+    }
+    _userprofile.trandetails.add(Transaction(
+      date: pickdate,
+      paid_amount: amount,
+      aboutreq: updatedamount,
+    ));
+    //amit[id] = amit[id]! - amount.toInt();
     notifyListeners();
   }
 

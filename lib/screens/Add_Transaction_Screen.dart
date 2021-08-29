@@ -45,7 +45,7 @@ class _Add_TransactionState extends State<Add_Transaction> {
                   children: <Widget>[
                     Text(
                       _selectedDate == null
-                          ? "Please select Date"
+                          ? "Select Date"
                           : DateFormat.yMd().format(_selectedDate!),
                     ),
                     IconButton(
@@ -55,16 +55,17 @@ class _Add_TransactionState extends State<Add_Transaction> {
                       ),
                     ),
                     Container(
-                      width: 100,
+                      width: 130,
                       child: TextField(
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: "Amount Payed",
-                          hintText: "1000",
+                          labelText: "Amount",
                         ),
                         controller: _amountController,
                         onSubmitted: (amount) {
                           final _paidamount = double.parse(amount);
                           widget._submitData(_paidamount, _selectedDate);
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),

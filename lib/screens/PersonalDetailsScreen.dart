@@ -24,7 +24,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
     final List<Transaction> _history = _customer.trandetails;*/
 
-    final BasicSummary _customer = Provider.of<BSummary>(
+    BasicSummary _customer = Provider.of<BSummary>(
       context,
       listen: false,
     ).findByID(widget.id);
@@ -33,7 +33,17 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       return -a.date.compareTo(b.date);
     });
 
+    /* final _showamount = Provider.of<BSummary>(
+      context,
+      listen: false,
+    ).amit; */
+    //print();
+
     void _submitData(double amount, DateTime pickedDate) {
+      if (_history.length != 0) {
+        if (_history[0].date.isAfter(pickedDate)) return;
+      }
+
       setState(() {
         Provider.of<BSummary>(context, listen: false).add_Trans(
           _customer.id,
@@ -81,7 +91,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
             ),
           ),
         ],
-        title: Text("${_customer.name}"),
+        title: Text(
+          "${_customer.name}",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -110,7 +123,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                     children: <Widget>[
                       Text(
                         "${_date}",
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       Spacer(),
                       Text(
@@ -118,15 +131,27 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       Spacer(),
+                      /* Consumer<BSummary>(
+                        builder: (context, summary, _) {
+                          final updatedcustomer = summary.items
+                              .firstWhere((element) => element.id == widget.id);
+                          return Text(
+                            "${updatedcustomer.trandetails[index].aboutreq.toInt()}",
+                            //"${_showamount[widget.id]!.toInt()}",
+                            style: Theme.of(context).textTheme.bodyText2,
+                          );
+                        },
+                      ) */
+                      Text(
+                        "Rs. ${_history[index].aboutreq.toInt()}",
+                        //"${_showamount[widget.id]!.toInt()}",
+                        style: Theme.of(context).textTheme.bodyText2,
+                      )
                       /* IconButton(
                       onPressed: () {},
                       icon: Icon(Icons.delete),
                     ),
                     Spacer(), */
-                      Text(
-                        "${_customer.remamount.toInt()}",
-                        style: Theme.of(context).textTheme.bodyText2,
-                      ),
                     ],
                   ),
                 ),

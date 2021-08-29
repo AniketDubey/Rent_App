@@ -30,7 +30,7 @@ class HomeDetails extends StatelessWidget {
                     Flexible(
                       child: Text(
                         "${_user[index].name}",
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       flex: 3,
                       fit: FlexFit.tight,

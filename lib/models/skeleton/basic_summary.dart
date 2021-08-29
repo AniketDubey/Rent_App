@@ -6,7 +6,7 @@ class BasicSummary {
   final String id;
   final String name;
   double remamount;
-  final List<Transaction> trandetails;
+  List<Transaction> trandetails;
 
   BasicSummary({
     required this.id,
