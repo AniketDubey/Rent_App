@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rentapp/models/skeleton/Base_Summary.dart';
 
-import 'package:rentapp/models/data/DUMMYDATA.dart';
-import 'package:rentapp/models/skeleton/basic_summary.dart';
+//import 'package:rentapp/models/data/DUMMYDATA.dart';
 import 'package:rentapp/models/skeleton/transaction_summary.dart';
+import 'package:rentapp/models/data/DUMDATA.dart';
 
 import 'package:provider/provider.dart';
 import 'package:rentapp/screens/Add_Transaction_Screen.dart';
@@ -24,10 +25,18 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
     final List<Transaction> _history = _customer.trandetails;*/
 
-    BasicSummary _customer = Provider.of<BSummary>(
+    /* BasicSummary _customer = Provider.of<BSummary>(
       context,
       listen: false,
     ).findByID(widget.id);
+    final List<Transaction> _history = _customer.trandetails;
+    _history.sort((a, b) {
+      return -a.date.compareTo(b.date);
+    }); */
+
+    Base_Summary _customer =
+        Provider.of<BSummary>(context, listen: false).findByID(widget.id);
+
     final List<Transaction> _history = _customer.trandetails;
     _history.sort((a, b) {
       return -a.date.compareTo(b.date);
@@ -46,7 +55,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
       setState(() {
         Provider.of<BSummary>(context, listen: false).add_Trans(
-          _customer.id,
+          widget.id,
           amount,
           pickedDate,
         );

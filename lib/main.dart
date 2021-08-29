@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rentapp/models/data/DUMMYDATA.dart';
+import 'package:rentapp/models/data/DUMDATA.dart';
 
 import 'screens/HomeScreen.dart';
 
