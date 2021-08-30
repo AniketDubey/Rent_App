@@ -49,6 +49,8 @@ class BSummary with ChangeNotifier {
     Base_Summary _userprofile = items[id] as Base_Summary;
     final expecIndex =
         _userprofile.trandetails.indexWhere((element) => element.date == date);
+    final presentAmount = _userprofile.trandetails[expecIndex].paid_amount;
+    _userprofile.remamount = _userprofile.remamount + presentAmount;
     _userprofile.trandetails.removeAt(expecIndex);
     notifyListeners();
   }
@@ -64,6 +66,39 @@ class BSummary with ChangeNotifier {
               remamount: _enteredDetails["ReqAmount"] as double,
               trandetails: _emptyTran,
             ));
+    notifyListeners();
+  }
+
+  void edit_userData(String ID, double newAmount) {
+    /*  _items.forEach((key, value) {
+      if (ID == key) {
+        //print(value);
+        Base_Summary uProf = value as Base_Summary;
+        uProf.remamount = newAmount;
+      }
+    }); */
+
+    var uProf = _items[ID] as Base_Summary;
+    int len = uProf.trandetails.length;
+
+    if (len != 0) {
+      var toAdd = newAmount -
+          (uProf.trandetails[len - 1].aboutreq +
+              uProf.trandetails[len - 1].paid_amount);
+
+      uProf.trandetails.forEach((element) {
+        element.aboutreq = element.aboutreq + toAdd;
+      });
+      uProf.remamount = uProf.remamount + toAdd;
+    } else {
+      uProf.remamount = newAmount;
+    }
+
+    /* _items.update(ID, (value) {
+      Base_Summary uProf = value as Base_Summary;
+      uProf.remamount = newAmount;
+      return uProf.remamount;
+    }); */
     notifyListeners();
   }
 }

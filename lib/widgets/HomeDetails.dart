@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rentapp/models/skeleton/Base_Summary.dart';
+import 'package:rentapp/screens/Edit_Entry.dart';
 
 import 'package:rentapp/screens/PersonalDetailsScreen.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,17 @@ class HomeDetails extends StatelessWidget {
                       //"${_user[index].name}",
                       "${_userDetails.name}",
                       style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => Edit_Entry(_userID, _userDetails),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.edit),
                     ),
                     Spacer(),
                     Text(
