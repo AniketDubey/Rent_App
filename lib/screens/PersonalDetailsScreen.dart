@@ -34,8 +34,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       return -a.date.compareTo(b.date);
     }); */
 
-    Base_Summary _customer =
-        Provider.of<BSummary>(context, listen: false).findByID(widget.id);
+    Base_Summary _customer = Provider.of<BSummary>(context).findByID(widget.id);
 
     final List<Transaction> _history = _customer.trandetails;
     _history.sort((a, b) {
@@ -50,7 +49,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
     void _submitData(double amount, DateTime pickedDate) {
       if (_history.length != 0) {
-        if (_history[0].date.isAfter(pickedDate)) return;
+        if (_history[0].date.isAfter(pickedDate) ||
+            _history[0].date == pickedDate) return;
       }
 
       setState(() {
@@ -59,13 +59,20 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           amount,
           pickedDate,
         );
+        /* Future.delayed(Duration.zero).then((_) {
+          Provider.of<BSummary>(context).add_Trans(
+            widget.id,
+            amount,
+            pickedDate,
+          );
+        }); */
       });
     }
 
-    void _deleteTran(String id, DateTime date) {
+    void _deleteTran(String id, String tid) {
       Provider.of<BSummary>(context, listen: false).del_Trans(
         id,
-        date,
+        tid,
       );
     }
 
@@ -123,7 +130,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
               ),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
-                _deleteTran(widget.id, _history[index].date);
+                _deleteTran(widget.id, _history[index].Tid);
               },
               child: Card(
                 child: Padding(

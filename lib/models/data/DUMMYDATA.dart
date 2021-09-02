@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 import 'package:rentapp/models/skeleton/basic_summary.dart';
 import 'package:rentapp/models/skeleton/transaction_summary.dart';
@@ -73,4 +73,4 @@ class BSummary with ChangeNotifier {
     _userprofile.trandetails.removeAt(expecIndex);
     notifyListeners();
   }
-}
+}*/
