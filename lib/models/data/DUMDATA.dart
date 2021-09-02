@@ -20,6 +20,13 @@ class BSummary with ChangeNotifier {
   };
 
   Map<String, Object> get items {
+    _items.forEach((key, value) {
+      value as Base_Summary;
+      value.trandetails.sort((a, b) {
+        return -a.date.compareTo(b.date);
+      });
+    });
+
     return _items;
   }
 
@@ -43,7 +50,7 @@ class BSummary with ChangeNotifier {
         "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$id/Summary/Transaction.json");
 
     try {
-      final res = await http.post(
+      var res = await http.post(
         url,
         body: jsonEncode(
           {
@@ -53,6 +60,14 @@ class BSummary with ChangeNotifier {
           },
         ),
       );
+
+      res = await http.patch(
+          Uri.parse(
+              "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$id/Summary.json"),
+          body: json.encode({
+            "ReqAmount": updatedamount,
+          }));
+
       //print(res.statusCode);
     } catch (error) {}
 
@@ -186,6 +201,13 @@ class BSummary with ChangeNotifier {
     }
 
     _userprofile.trandetails.removeAt(expecIndex);
+    await http.patch(
+        Uri.parse(
+            "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$id/Summary.json"),
+        body: json.encode({
+          "ReqAmount": _userprofile.trandetails[0].aboutreq,
+        }));
+
     notifyListeners();
 
     //print(response.statusCode);
@@ -207,6 +229,12 @@ class BSummary with ChangeNotifier {
 
         notifyListeners();
       }
+      await http.patch(
+          Uri.parse(
+              "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$id/Summary.json"),
+          body: json.encode({
+            "ReqAmount": _userprofile.trandetails[0].aboutreq,
+          }));
       savedValue = null;
     } catch (error) {
       print(error);

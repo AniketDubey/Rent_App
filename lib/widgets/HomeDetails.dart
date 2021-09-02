@@ -68,7 +68,7 @@ class _HomeDetailsState extends State<HomeDetails> {
                           Text(
                             _userDetails.trandetails.length == 0
                                 ? "Rs. ${_userDetails.remamount.toInt()}"
-                                : "Rs. ${_userDetails.trandetails.last.aboutreq.toInt()}",
+                                : "Rs. ${_userDetails.trandetails.first.aboutreq.toInt()}",
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ],
