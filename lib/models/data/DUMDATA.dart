@@ -98,6 +98,7 @@ class BSummary with ChangeNotifier {
           {
             "uniID": "${_enteredDetails["Aadhar"]}",
             "Summary": {
+              "ID": "${_enteredDetails["Aadhar"]}",
               "Name": _enteredDetails["Name"],
               "ReqAmount": _enteredDetails["ReqAmount"],
               "Transaction": [],
@@ -140,7 +141,6 @@ class BSummary with ChangeNotifier {
       //print(_items.length);
       extractedData.forEach((key, value) {
         List<Transaction> _uTrans = [];
-        String uniID = value["uniID"];
         //print(uniID);
         if (value["Summary"]["Transaction"] != null) {
           var snippet = value["Summary"]["Transaction"] as Map<String, dynamic>;
@@ -161,6 +161,7 @@ class BSummary with ChangeNotifier {
         _items.putIfAbsent(
             key,
             () => Base_Summary(
+                  id: value["Summary"]["ID"],
                   name: value["Summary"]["Name"].toString(),
                   remamount: value["Summary"]["ReqAmount"] as double,
                   trandetails: _uTrans,

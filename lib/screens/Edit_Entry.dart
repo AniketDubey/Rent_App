@@ -38,7 +38,7 @@ class Edit_Entry extends StatelessWidget {
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: "Aadhar Number",
-                    hintText: "$uID",
+                    hintText: "${uDetail.id}",
                   ),
                 ),
                 Padding(

@@ -108,7 +108,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           ),
         ],
         title: Text(
-          "${_customer.name}",
+          "${_customer.name} : ${_customer.id}",
           style: Theme.of(context).textTheme.bodyText1,
         ),
       ),
