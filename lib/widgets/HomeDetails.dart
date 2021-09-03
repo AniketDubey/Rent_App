@@ -85,6 +85,10 @@ class _HomeDetailsState extends State<HomeDetails> {
 
 Widget EmptyScreen() {
   return Center(
+    child: CircularProgressIndicator(),
+  );
+
+  /*return Center(
     child: Text(
       "Please share your amount!",
       style: TextStyle(
@@ -100,5 +104,5 @@ Widget EmptyScreen() {
         ],
       ),
     ),
-  );
+  ); */
 }
