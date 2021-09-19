@@ -34,11 +34,27 @@ class BSummary with ChangeNotifier {
     return _items[uniID] as Base_Summary;
   }
 
+  Future<void> del_User(String UID) async {
+    Base_Summary saveUser = _items[UID] as Base_Summary;
+    _items.remove(UID);
+    try {
+      final response = await http.delete(
+        Uri.parse(
+            "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$UID.json"),
+      );
+
+      if (response.statusCode >= 400) {
+        _items[UID] = saveUser;
+      }
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Future<void> add_Trans(String id, double amount, DateTime pickdate) async {
     Base_Summary _userprofile = items[id] as Base_Summary;
-    //print(id);
-    // _userprofile.remamount = _userprofile.remamount - amount;
-    //print(_userprofile.remamount);
+
     double updatedamount = 0;
     if (_userprofile.trandetails.length == 0) {
       updatedamount = _userprofile.remamount - amount;
@@ -67,27 +83,15 @@ class BSummary with ChangeNotifier {
           body: json.encode({
             "ReqAmount": updatedamount,
           }));
-
-      //print(res.statusCode);
     } catch (error) {}
 
-    /* _userprofile.trandetails.add(Transaction(
-      date: pickdate,
-      paid_amount: amount,
-      aboutreq: updatedamount,
-    ));
-    _userprofile.remamount = updatedamount; */
-    //amit[id] = amit[id]! - amount.toInt();
-    //notifyListeners();
     _items.clear();
     await fetchUsers();
-    //notifyListeners();
   }
 
   Future<void> Add_NewMember(Map<String, Object> _enteredDetails) async {
     if (_items.containsKey(_enteredDetails["Aadhar"])) return;
 
-    //print(_items.length);
     final url = Uri.parse(
         "https://rent-management-b2488-default-rtdb.firebaseio.com/Users.json");
 
@@ -106,23 +110,9 @@ class BSummary with ChangeNotifier {
           },
         ),
       );
-
-      /* List<Transaction> _emptyTran = [];
-      _items.putIfAbsent(
-          _enteredDetails["Aadhar"].toString(),
-          () => Base_Summary(
-                name: _enteredDetails["Name"].toString(),
-                remamount: _enteredDetails["ReqAmount"] as double,
-                trandetails: _emptyTran,
-              )); */
-
-      //print(_items.length);
-      //print(res.body);
-    } catch (error) {
-      //print(error);
-    }
+    } catch (error) {}
     await fetchUsers();
-    //print(_items.length);
+
     notifyListeners();
   }
 
@@ -132,16 +122,15 @@ class BSummary with ChangeNotifier {
 
     try {
       final response = await http.get(Uri.parse(url));
-      //print(response.body);
+
       final extractedData = json.decode(response.body) as Map<String, dynamic>?;
       if (extractedData == null) {
         return;
       }
-      // print(extractedData);
-      //print(_items.length);
+
       extractedData.forEach((key, value) {
         List<Transaction> _uTrans = [];
-        //print(uniID);
+
         if (value["Summary"]["Transaction"] != null) {
           var snippet = value["Summary"]["Transaction"] as Map<String, dynamic>;
           snippet.forEach(
@@ -166,27 +155,13 @@ class BSummary with ChangeNotifier {
                   remamount: value["Summary"]["ReqAmount"] as double,
                   trandetails: _uTrans,
                 ));
-        /* _items.forEach((key, value) {
-          
-          _items.u
-          Base_Summary checkval = _items[key] as Base_Summary;
-          /* print(checkval.name);
-          print(checkval.remamount); */
-          checkval.trandetails.forEach((element) {
-            print(element.Tid);
-          });
-        }); */
       });
-      //print(extractedData);
-    } catch (error) {
-      //print(error);
-    }
-    //print(_items.length);
+    } catch (error) {}
+
     notifyListeners();
   }
 
   Future<void> del_Trans(String id, String tid) async {
-    //print(date);
     Base_Summary _userprofile = items[id] as Base_Summary;
     final expecIndex =
         _userprofile.trandetails.indexWhere((element) => element.Tid == tid);
@@ -211,14 +186,10 @@ class BSummary with ChangeNotifier {
 
     notifyListeners();
 
-    //print(response.statusCode);
     try {
       var response = await http.delete(Uri.parse(
           "https://rent-management-b2488-default-rtdb.firebaseio.com/Users/$id/Summary/Transaction/$tid.json"));
 
-      /*  print(response);
-      print(response.body);
-      print(response.statusCode); */
       if (response.statusCode >= 400) {
         if (expecIndex != 0) {
           for (var i = 0; i < expecIndex; i++) {
@@ -243,13 +214,6 @@ class BSummary with ChangeNotifier {
   }
 
   Future<void> edit_userData(String uniID, double newAmount) async {
-    /*  _items.forEach((key, value) {
-      if (uniID == key) {
-        //print(value);
-        Base_Summary uProf = value as Base_Summary;
-        uProf.remamount = newAmount;
-      }
-    }); */
     try {
       final response = await http.patch(
           Uri.parse(
@@ -257,9 +221,7 @@ class BSummary with ChangeNotifier {
           body: jsonEncode({
             "ReqAmount": newAmount,
           }));
-      /* print(response);
-      print(response.body);
-      print(response.statusCode); */
+
       var uProf = _items[uniID] as Base_Summary;
       int len = uProf.trandetails.length;
 
@@ -279,11 +241,5 @@ class BSummary with ChangeNotifier {
     } catch (error) {
       print(error);
     }
-
-    /* _items.update(uniID, (value) {
-      Base_Summary uProf = value as Base_Summary;
-      uProf.remamount = newAmount;
-      return uProf.remamount;
-    }); */
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rentapp/models/skeleton/Base_Summary.dart';
 import 'package:rentapp/screens/Edit_Entry.dart';
+import 'package:rentapp/screens/Info_Screen.dart';
 
 import 'package:rentapp/screens/PersonalDetailsScreen.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +16,12 @@ class _HomeDetailsState extends State<HomeDetails> {
   @override
   void initState() {
     Provider.of<BSummary>(context, listen: false).fetchUsers();
-    // TODO: implement initState
+
     super.initState();
+  }
+
+  void deleteUser(String USERID) {
+    Provider.of<BSummary>(context, listen: false).del_User(USERID);
   }
 
   @override
@@ -33,45 +38,70 @@ class _HomeDetailsState extends State<HomeDetails> {
                 String _userID = _user.keys.elementAt(index);
                 //print(_userID);
                 Base_Summary _userDetails = _user[_userID] as Base_Summary;
-                return Card(
-                  child: InkWell(
-                    onTap: () {
-                      //print(_userID);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (ctx) => PersonalDetailsScreen(_userID),
+                return Dismissible(
+                  key: ValueKey(_user[index]),
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    deleteUser(_userID);
+                  },
+                  child: Card(
+                    child: InkWell(
+                      onTap: () {
+                        //print(_userID);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => PersonalDetailsScreen(_userID),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              //"${_user[index].name}",
+                              "${_userDetails.name}",
+                              style: Theme.of(context).textTheme.bodyText1,
+                            ),
+                            Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) =>
+                                        Edit_Entry(_userID, _userDetails),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.edit),
+                            ),
+                            Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => Info_Screen(_userID),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.info),
+                            ),
+                            Spacer(),
+                            Text(
+                              _userDetails.trandetails.length == 0
+                                  ? "Rs. ${_userDetails.remamount.toInt()}"
+                                  : "Rs. ${_userDetails.trandetails.first.aboutreq.toInt()}",
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            //"${_user[index].name}",
-                            "${_userDetails.name}",
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          Spacer(),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) =>
-                                      Edit_Entry(_userID, _userDetails),
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.edit),
-                          ),
-                          Spacer(),
-                          Text(
-                            _userDetails.trandetails.length == 0
-                                ? "Rs. ${_userDetails.remamount.toInt()}"
-                                : "Rs. ${_userDetails.trandetails.first.aboutreq.toInt()}",
-                            style: Theme.of(context).textTheme.bodyText2,
-                          ),
-                        ],
                       ),
                     ),
                   ),
@@ -87,22 +117,4 @@ Widget EmptyScreen() {
   return Center(
     child: CircularProgressIndicator(),
   );
-
-  /*return Center(
-    child: Text(
-      "Please share your amount!",
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-        shadows: [
-          Shadow(
-            blurRadius: 10.0,
-            color: Colors.black45,
-            offset: Offset(1.0, 2.0),
-          ),
-        ],
-      ),
-    ),
-  ); */
 }

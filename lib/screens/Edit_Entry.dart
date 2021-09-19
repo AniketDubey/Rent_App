@@ -68,9 +68,6 @@ class Edit_Entry extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         _editDetails(uID, nAmount);
-                        /* print(_savedInfo["Aadhar"]);
-                        print(_savedInfo["Name"]);
-                        print(_savedInfo["ReqAmount"]); */
                         Navigator.of(context).pop();
                       }
                     },

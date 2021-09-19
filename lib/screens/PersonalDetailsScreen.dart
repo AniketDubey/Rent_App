@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rentapp/models/skeleton/Base_Summary.dart';
 
-//import 'package:rentapp/models/data/DUMMYDATA.dart';
 import 'package:rentapp/models/skeleton/transaction_summary.dart';
 import 'package:rentapp/models/data/DUMDATA.dart';
 
@@ -19,33 +18,12 @@ class PersonalDetailsScreen extends StatefulWidget {
 class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    /* final BasicSummary _customer =
-        DUMMYDATA.firstWhere((element) => element.id == id); 
-
-
-    final List<Transaction> _history = _customer.trandetails;*/
-
-    /* BasicSummary _customer = Provider.of<BSummary>(
-      context,
-      listen: false,
-    ).findByID(widget.id);
-    final List<Transaction> _history = _customer.trandetails;
-    _history.sort((a, b) {
-      return -a.date.compareTo(b.date);
-    }); */
-
     Base_Summary _customer = Provider.of<BSummary>(context).findByID(widget.id);
 
     final List<Transaction> _history = _customer.trandetails;
     _history.sort((a, b) {
       return -a.date.compareTo(b.date);
     });
-
-    /* final _showamount = Provider.of<BSummary>(
-      context,
-      listen: false,
-    ).amit; */
-    //print();
 
     void _submitData(double amount, DateTime pickedDate) {
       if (_history.length != 0) {
@@ -59,13 +37,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           amount,
           pickedDate,
         );
-        /* Future.delayed(Duration.zero).then((_) {
-          Provider.of<BSummary>(context).add_Trans(
-            widget.id,
-            amount,
-            pickedDate,
-          );
-        }); */
       });
     }
 
@@ -75,13 +46,6 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
         tid,
       );
     }
-
-    /* final Map<String, int> _b11 =
-        Provider.of<BSummary>(context, listen: false).aniket;
-
-    _b11.forEach((key, value) {
-
-    }); */
 
     return Scaffold(
       appBar: AppBar(
@@ -108,8 +72,10 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           ),
         ],
         title: Text(
-          "${_customer.name} : ${_customer.id}",
-          style: Theme.of(context).textTheme.bodyText1,
+          "${_customer.name}'s Transactions",
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
       ),
       body: Padding(
@@ -147,27 +113,11 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       Spacer(),
-                      /* Consumer<BSummary>(
-                        builder: (context, summary, _) {
-                          final updatedcustomer = summary.items
-                              .firstWhere((element) => element.id == widget.id);
-                          return Text(
-                            "${updatedcustomer.trandetails[index].aboutreq.toInt()}",
-                            //"${_showamount[widget.id]!.toInt()}",
-                            style: Theme.of(context).textTheme.bodyText2,
-                          );
-                        },
-                      ) */
                       Text(
                         "Rs. ${_history[index].aboutreq.toInt()}",
                         //"${_showamount[widget.id]!.toInt()}",
                         style: Theme.of(context).textTheme.bodyText2,
                       )
-                      /* IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.delete),
-                    ),
-                    Spacer(), */
                     ],
                   ),
                 ),
