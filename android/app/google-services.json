@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "265342649275",
+    "firebase_url": "https://rent-management-b2488-default-rtdb.firebaseio.com",
+    "project_id": "rent-management-b2488",
+    "storage_bucket": "rent-management-b2488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265342649275:android:3f63ae61aab7b6cff13a9e",
+        "android_client_info": {
+          "package_name": "com.example.rentapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265342649275-4k0rbrnudtsg1kt4ed917g04etb15j6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0I9iO5GpnTPQBFuu1_3XlOsRnHwK5BFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265342649275-4k0rbrnudtsg1kt4ed917g04etb15j6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

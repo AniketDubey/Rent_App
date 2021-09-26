@@ -27,6 +27,7 @@ class BSummary with ChangeNotifier {
       });
     });
 
+    // print("count of items is ${_items.length}");
     return _items;
   }
 
@@ -52,7 +53,8 @@ class BSummary with ChangeNotifier {
     }
   }
 
-  Future<void> add_Trans(String id, double amount, DateTime pickdate) async {
+  Future<void> add_Trans(
+      String id, double amount, DateTime pickdate, bool onMe) async {
     Base_Summary _userprofile = items[id] as Base_Summary;
 
     double updatedamount = 0;
@@ -73,6 +75,7 @@ class BSummary with ChangeNotifier {
             "Date": pickdate.toString(),
             "Paid Amount": amount,
             "Remaining": updatedamount,
+            "Given": onMe,
           },
         ),
       );
@@ -91,6 +94,8 @@ class BSummary with ChangeNotifier {
 
   Future<void> Add_NewMember(Map<String, Object> _enteredDetails) async {
     if (_items.containsKey(_enteredDetails["Aadhar"])) return;
+
+    //print(_enteredDetails["ReqAmount"].runtimeType);
 
     final url = Uri.parse(
         "https://rent-management-b2488-default-rtdb.firebaseio.com/Users.json");
@@ -124,6 +129,7 @@ class BSummary with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
 
       final extractedData = json.decode(response.body) as Map<String, dynamic>?;
+      //print(extractedData);
       if (extractedData == null) {
         return;
       }
@@ -137,10 +143,11 @@ class BSummary with ChangeNotifier {
             (key, value) {
               _uTrans.add(
                 Transaction(
+                  onMe: value["Given"],
                   Tid: key,
                   date: DateTime.parse(value["Date"]),
-                  paid_amount: value["Paid Amount"],
-                  aboutreq: value["Remaining"],
+                  paid_amount: value["Paid Amount"] * 1.0,
+                  aboutreq: value["Remaining"] * 1.0,
                 ),
               );
             },
@@ -152,11 +159,15 @@ class BSummary with ChangeNotifier {
             () => Base_Summary(
                   id: value["Summary"]["ID"],
                   name: value["Summary"]["Name"].toString(),
-                  remamount: value["Summary"]["ReqAmount"] as double,
+                  remamount: value["Summary"]["ReqAmount"] * 1.0,
                   trandetails: _uTrans,
                 ));
       });
-    } catch (error) {}
+
+      //print("catch ke upar wala ${_items.length}");
+    } catch (error) {
+      print(error);
+    }
 
     notifyListeners();
   }

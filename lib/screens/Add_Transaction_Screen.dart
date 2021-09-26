@@ -15,8 +15,8 @@ class _Add_TransactionState extends State<Add_Transaction> {
 
   final _amountController = TextEditingController();
 
-  void _presentDatePicker() {
-    showDatePicker(
+  void _presentDatePicker() async {
+    await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2021),
@@ -31,50 +31,65 @@ class _Add_TransactionState extends State<Add_Transaction> {
     );
   }
 
+  bool _onMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Padding(
-                padding: MediaQuery.of(context).viewInsets,
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      _selectedDate == null
-                          ? "Select Date"
-                          : DateFormat.yMd().format(_selectedDate!),
-                    ),
-                    IconButton(
-                      onPressed: _presentDatePicker,
-                      icon: Icon(
-                        Icons.calendar_today,
-                      ),
-                    ),
-                    Container(
-                      width: 130,
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: "Amount",
-                        ),
-                        controller: _amountController,
-                        onSubmitted: (amount) {
-                          final _paidamount = double.parse(amount);
-                          widget._submitData(_paidamount, _selectedDate);
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom + 25),
+            height: MediaQuery.of(context).size.height * 0.25,
+            child: Row(
+              children: <Widget>[
+                Text(
+                  _selectedDate == null
+                      ? "Select Date"
+                      : DateFormat.yMd().format(_selectedDate!),
                 ),
-              ),
+                Spacer(),
+                IconButton(
+                  onPressed: _presentDatePicker,
+                  icon: Icon(
+                    Icons.calendar_today,
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  width: 130,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: "Amount",
+                    ),
+                    controller: _amountController,
+                    onSubmitted: (amount) {
+                      final _paidamount = double.parse(amount);
+                      widget._submitData(_paidamount, _selectedDate, _onMe);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          CheckboxListTile(
+            title: Text("Amount I gave"),
+            value: _onMe,
+            onChanged: (newvalue) {
+              setState(
+                () {
+                  _onMe = !_onMe;
+                },
+              );
+            },
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+        ],
       ),
     );
   }

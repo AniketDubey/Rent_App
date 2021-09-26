@@ -25,7 +25,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       return -a.date.compareTo(b.date);
     });
 
-    void _submitData(double amount, DateTime pickedDate) {
+    void _submitData(double amount, DateTime pickedDate, bool onMe) {
       if (_history.length != 0) {
         if (_history[0].date.isAfter(pickedDate) ||
             _history[0].date == pickedDate) return;
@@ -36,6 +36,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           widget.id,
           amount,
           pickedDate,
+          onMe,
         );
       });
     }

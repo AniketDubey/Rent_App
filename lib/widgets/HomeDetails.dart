@@ -26,9 +26,10 @@ class _HomeDetailsState extends State<HomeDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final _uniuser = Provider.of<BSummary>(context);
-    final _user = _uniuser.items;
+    var _uniuser = Provider.of<BSummary>(context);
+    var _user = _uniuser.items;
 
+    //print(_user.length);
     return Padding(
       padding: EdgeInsets.all(15),
       child: _user.length == 0
@@ -39,7 +40,7 @@ class _HomeDetailsState extends State<HomeDetails> {
                 //print(_userID);
                 Base_Summary _userDetails = _user[_userID] as Base_Summary;
                 return Dismissible(
-                  key: ValueKey(_user[index]),
+                  key: ValueKey(_userID),
                   background: Container(
                     alignment: Alignment.centerRight,
                     child: Icon(
